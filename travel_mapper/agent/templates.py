@@ -88,7 +88,22 @@ class ItineraryTemplate(object):
       
       If specific start and end locations are not given, choose ones that you think are suitable and give specific addresses.
       
-      Your output must be the list and nothing else.
+      Your output must be a breakdown of the time taken for each part of the travel (Example: 0800 - 0810 denoting the start time
+      0800 in the 24 hour clock and that the activity lasts a total of 10 minutes), the start time will be the time that
+      the prompt is sent.
+
+      Example output:
+        0700: Start at 59 Gerald Drive (59 Gerald Drive, 799008)
+        0700 - 0707: Walk to Bef Gerald Drive Bus Stop (Yio Chu Kang Rd) 
+        0707 - 0723: Board bus 70M to S'Goon Stn Exit C/Blk 201 (Serangoon Central)
+        0723 - 0725: Walk to FairPrice Xtra Nex (23 Serangoon Central, #03-42, NEX, Singapore 556083)
+        0725 - 0750: Do Grocery Shopping
+        0750 - 0751: Walk to Serangoon MRT (21 Serangoon Central, 556082)
+        0751 - 0816: Take the MRT to Bayfront (11 Bayfront Avenue, 018957)
+        0816 - 0819: Walk to Marina Bay Sands Singapore (10 Bayfront Ave, Singapore 018956) 
+
+    In this case, 0700 is the time the prompt was sent and 0700-0707 is the duration to complete the corresponding
+    activity
     """
 
         self.human_template = """
@@ -124,11 +139,7 @@ class MappingTemplate(object):
 
       ####
       Travel route to Marina Bay Sands from 59 Gerald Drive, while stopping by at the nearest convenient location to do
-      grocery
-        
-      #####
-
-      Output:
+      grocery:
         0700: Start at 59 Gerald Drive (59 Gerald Drive, 799008)
         0700 - 0707: Walk to Bef Gerald Drive Bus Stop (Yio Chu Kang Rd) 
         0707 - 0723: Board bus 70M to S'Goon Stn Exit C/Blk 201 (Serangoon Central)
@@ -137,6 +148,11 @@ class MappingTemplate(object):
         0750 - 0751: Walk to Serangoon MRT (21 Serangoon Central, 556082)
         0751 - 0816: Take the MRT to Bayfront (11 Bayfront Avenue, 018957)
         0816 - 0819: Walk to Marina Bay Sands Singapore (10 Bayfront Ave, Singapore 018956)
+      #####
+
+      Output:
+      Start: 59 Gerald Drive
+      End: Tower Marina Bay Sands Singapore
       
       Transit: bus, train
 
