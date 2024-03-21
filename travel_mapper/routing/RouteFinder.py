@@ -32,7 +32,7 @@ class RouteFinder:
 
         """
         self.logger.info("# " * 20)
-        self.logger.info("PROPOSED ITINERARY")
+        self.logger.info("PROPOSED TRAVEL PLAN")
         self.logger.info("# " * 20)
         self.logger.info(itinerary)
 
@@ -40,6 +40,7 @@ class RouteFinder:
         directions, sampled_route, mapping_dict = self.build_route_segments(
             list_of_places
         )
+        print(mapping_dict)
         t2 = time.time()
         self.logger.info("Time to build route : {}".format((round(t2 - t1, 2))))
 

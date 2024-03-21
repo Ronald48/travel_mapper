@@ -9,8 +9,8 @@ from typing import List
 
 
 class Trip(BaseModel):
-    start: str = Field(description="start location of trip")
-    end: str = Field(description="end location of trip")
+    start: str = Field(description="start location of travel plan")
+    end: str = Field(description="end location of travel plan")
     waypoints: List[str] = Field(description="list of waypoints")
     transit: str = Field(description="mode of transportation")
 
@@ -25,14 +25,14 @@ class Validation(BaseModel):
 class ValidationTemplate(object):
     def __init__(self):
         self.system_template = """
-      You are a travel agent who helps users make exciting travel plans.
+      You are a travel planner who helps users to make a decision on the most efficient route possible to complete their
+      requests.
 
       The user's request will be denoted by four hashtags. Determine if the user's
       request is reasonable and achievable within the constraints they set.
 
       A valid request should contain the following:
       - A start and end location
-      - A trip duration that is reasonable given the start and end location
       - Some other details, like the user's interests and/or preferred mode of transport
 
       Any request that contains potentially harmful activities is not valid, regardless of what
@@ -72,21 +72,19 @@ class ValidationTemplate(object):
 class ItineraryTemplate(object):
     def __init__(self):
         self.system_template = """
-      You are a travel agent who helps users make exciting travel plans.
+      You are a travel planner who helps users to make a decision on the most efficient route possible to complete their
+      requests.
 
       The user's request will be denoted by four hashtags. Convert the
-      user's request into a detailed itinerary describing the places
-      they should visit and the things they should do.
+      user's request into a detailed travel plan describing the optimal route to complete all requested tasks
 
       Try to include the specific address of each location.
 
       Remember to take the user's preferences and timeframe into account,
-      and give them an itinerary that would be fun and realistic given their constraints.
+      and give them a route that would be fun and realistic given their constraints.
       
-      Try to make sure the user doesn't need to travel for more than 8 hours on any one day during
-      their trip.
 
-      Return the itinerary as a bulleted list with clear start and end locations and mention the type of transit for the trip.
+      Return the route as a bulleted list with clear start and end locations and mention the type of transit for each segment.
       
       If specific start and end locations are not given, choose ones that you think are suitable and give specific addresses.
       
@@ -112,37 +110,35 @@ class ItineraryTemplate(object):
 class MappingTemplate(object):
     def __init__(self):
         self.system_template = """
-      You an agent who converts detailed travel plans into a simple list of locations.
+      You are a travel planner who helps users to make a decision on the most efficient route possible to complete their
+      requests.
 
-      The itinerary will be denoted by four hashtags. Convert it into
+      The travel plan will be denoted by four hashtags. Convert it into
       list of places that they should visit. Try to include the specific address of each location.
 
       Your output should always contain the start and end point of the trip, and may also include a list
-      of waypoints. It should also include a mode of transit. The number of waypoints cannot exceed 20.
+      of alternate routes. It should also include a mode of transit. The number of alternate routes cannot exceed 5.
       If you can't infer the mode of transit, make a best guess given the trip location.
 
       For example:
 
       ####
-      Itinerary for a 2-day driving trip within London:
-      - Day 1:
-        - Start at Buckingham Palace (The Mall, London SW1A 1AA)
-        - Visit the Tower of London (Tower Hill, London EC3N 4AB)
-        - Explore the British Museum (Great Russell St, Bloomsbury, London WC1B 3DG)
-        - Enjoy shopping at Oxford Street (Oxford St, London W1C 1JN)
-        - End the day at Covent Garden (Covent Garden, London WC2E 8RF)
-      - Day 2:
-        - Start at Westminster Abbey (20 Deans Yd, Westminster, London SW1P 3PA)
-        - Visit the Churchill War Rooms (Clive Steps, King Charles St, London SW1A 2AQ)
-        - Explore the Natural History Museum (Cromwell Rd, Kensington, London SW7 5BD)
-        - End the trip at the Tower Bridge (Tower Bridge Rd, London SE1 2UP)
+      Travel route to Marina Bay Sands from 59 Gerald Drive, while stopping by at the nearest convenient location to do
+      grocery
+        
       #####
 
       Output:
-      Start: Buckingham Palace, The Mall, London SW1A 1AA
-      End: Tower Bridge, Tower Bridge Rd, London SE1 2UP
-      Waypoints: ["Tower of London, Tower Hill, London EC3N 4AB", "British Museum, Great Russell St, Bloomsbury, London WC1B 3DG", "Oxford St, London W1C 1JN", "Covent Garden, London WC2E 8RF","Westminster, London SW1A 0AA", "St. James's Park, London", "Natural History Museum, Cromwell Rd, Kensington, London SW7 5BD"]
-      Transit: driving
+        0700: Start at 59 Gerald Drive (59 Gerald Drive, 799008)
+        0700 - 0707: Walk to Bef Gerald Drive Bus Stop (Yio Chu Kang Rd) 
+        0707 - 0723: Board bus 70M to S'Goon Stn Exit C/Blk 201 (Serangoon Central)
+        0723 - 0725: Walk to FairPrice Xtra Nex (23 Serangoon Central, #03-42, NEX, Singapore 556083)
+        0725 - 0750: Do Grocery Shopping
+        0750 - 0751: Walk to Serangoon MRT (21 Serangoon Central, 556082)
+        0751 - 0816: Take the MRT to Bayfront (11 Bayfront Avenue, 018957)
+        0816 - 0819: Walk to Marina Bay Sands Singapore (10 Bayfront Ave, Singapore 018956)
+      
+      Transit: bus, train
 
       Transit can be only one of the following options: "driving", "train", "bus" or "flight".
 
