@@ -1,5 +1,5 @@
 from langchain.chains import LLMChain, SequentialChain
-from langchain.chat_models import ChatOpenAI
+# from langchain.chat_models import ChatOpenAI
 from langchain.llms import GooglePalm
 from travel_mapper.agent.templates import (
     ValidationTemplate,
@@ -7,7 +7,7 @@ from travel_mapper.agent.templates import (
     MappingTemplate,
 )
 from travel_mapper.constants import MODEL_NAME, TEMPERATURE
-import openai
+# import openai
 import logging
 import time
 
@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 class Agent(object):
     def __init__(
         self,
-        open_ai_api_key,
+        # open_ai_api_key,
         google_palm_api_key,
         model=MODEL_NAME,
         temperature=TEMPERATURE,
@@ -26,13 +26,14 @@ class Agent(object):
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(logging.INFO)
 
-        if "gpt" in model:
-            # model is open ai
-            self.logger.info("Base LLM is OpenAI chatGPT series")
-            openai.api_key = open_ai_api_key
-            self.chat_model = ChatOpenAI(model=model, temperature=temperature)
-        elif "bison-001" in model:
+        # if "gpt" in model:
+        #     # model is open ai
+        #     self.logger.info("Base LLM is OpenAI chatGPT series")
+        #     openai.api_key = open_ai_api_key
+        #     self.chat_model = ChatOpenAI(model=model, temperature=temperature)
+        if "bison-001" in model:
             # model is google palm
+            print("this\n is \n running")
             self.logger.info("Base LLM is Google Palm")
             self.chat_model = GooglePalm(
                 model_name=model,
@@ -41,7 +42,7 @@ class Agent(object):
             )
 
         self._palm_key = google_palm_api_key
-        self._openai_key = open_ai_api_key
+        # self._openai_key = open_ai_api_key
 
         self.validation_prompt = ValidationTemplate()
         self.itinerary_prompt = ItineraryTemplate()
@@ -62,11 +63,11 @@ class Agent(object):
 
         """
 
-        if "gpt" in new_model:
-            # model is open ai
-            self.logger.info("Base LLM is OpenAI chatGPT series")
-            self.chat_model = ChatOpenAI(model=new_model, temperature=TEMPERATURE)
-        elif "bison-001" in new_model:
+        # if "gpt" in new_model:
+        #     # model is open ai
+        #     self.logger.info("Base LLM is OpenAI chatGPT series")
+        #     self.chat_model = ChatOpenAI(model=new_model, temperature=TEMPERATURE)
+        if "bison-001" in new_model:
             # model is google palm
             self.logger.info("Base LLM is Google Palm")
             self.chat_model = GooglePalm(

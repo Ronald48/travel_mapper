@@ -25,7 +25,7 @@ def main():
     assert_secrets(secrets)
 
     travel_mapper = TravelMapperForUI(
-        openai_api_key=secrets["OPENAI_API_KEY"],
+        # openai_api_key=secrets["OPENAI_API_KEY"],
         google_maps_key=secrets["GOOGLE_MAPS_API_KEY"],
         google_palm_api_key=secrets["GOOGLE_PALM_API_KEY"],
     )
