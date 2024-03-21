@@ -47,9 +47,9 @@ def main():
                         )
 
                         radio_map = gr.Radio(
-                            value="gpt-3.5-turbo",
-                            choices=["gpt-3.5-turbo", "gpt-4", "models/text-bison-001"],
-                            label="models",
+                            value="Google Palm",
+                            choices=["Google Palm"],
+                            label="Models",
                         )
 
                         query_validation_text = gr.Textbox(
