@@ -54,7 +54,7 @@ class RouteFinder:
         return directions, sampled_route, mapping_dict
 
     def build_route_segments(
-        self, list_of_places, verbose=True, distance_per_point_in_km=0.25
+        self, list_of_places, verbose=True, distance_per_point_in_km=0.01
     ):
         """
 
@@ -248,11 +248,11 @@ class RouteFinder:
         start = "place_id:" + mapping_dict["start"]["place_id"]
         end = "place_id:" + mapping_dict["end"]["place_id"]
 
-        # waypoints = [
-        #     mapping_dict[x]["place_id"]
-        #     for x in mapping_dict.keys()
-        #     if "waypoint" in x
-        # ]
+        waypoints = [
+            mapping_dict[x]["place_id"]
+            for x in mapping_dict.keys()
+            if "waypoint" in x
+        ]
         # start = mapping_dict["start"]["formatted_address"]
         # end = mapping_dict["end"]["formatted_address"]
 

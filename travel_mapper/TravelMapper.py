@@ -116,6 +116,8 @@ class TravelMapperForUI(TravelMapperBase):
 
         itinerary, list_of_places, validation = self.travel_agent.suggest_travel(query)
 
+        print("this is itinerary in TravelMapper", self.travel_agent.suggest_travel(query))
+
         # make validation message
         validation_string = validation_message(validation)
 
