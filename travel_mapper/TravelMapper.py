@@ -118,7 +118,6 @@ class TravelMapperForUI(TravelMapperBase):
 
         itinerary, list_of_places, validation = self.travel_agent.suggest_travel(query)
 
-        print("this is itinerary in TravelMapper", self.travel_agent.suggest_travel(query))
 
         # make validation message
         validation_string = validation_message(validation)
@@ -140,8 +139,6 @@ class TravelMapperForUI(TravelMapperBase):
             map_html = generate_leafmap(directions_list, sampled_route)
 
             new_itinerary = format_directions(directions_list)
-
-            print("This is the direction list", directions_list)
 
         return map_html, new_itinerary, validation_string
 

@@ -232,6 +232,7 @@ class RouteFinder:
         -------
 
         """
+        print("this\nis\nmappingdict", mapping_dict)
         if not start_time:
             start_time = datetime.now()
 

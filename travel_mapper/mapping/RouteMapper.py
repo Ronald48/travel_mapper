@@ -29,6 +29,7 @@ class RouteMapper:
 
         """
         self.map_name = self.auto_generate_map_name(list_of_places)
+        print("this\nis\nself\n map\n name", self.map._name)
 
     def auto_generate_map_name(self, list_of_places):
         """

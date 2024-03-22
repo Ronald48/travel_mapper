@@ -75,50 +75,22 @@ class ItineraryTemplate(object):
         t1 = str(datetime.now())
         print(str(t1))
         self.system_template = f"""
-      Please output what google map will output if it receives the request for the travel plan
+      You are a travel planner who helps users to make a decision on the most efficient route possible to complete their
+      requests.
 
-      The travel plan will be denoted by four hashtags. Convert it into
-      list of places that they should visit. Try to include the specific address of each location.
+      The user's request will be denoted by four hashtags. Convert the
+      user's request into a detailed travel plan describing the optimal route to complete all requested tasks
 
-      Your output should always contain the start and end point of the trip, and may also include a list
-      of alternate routes. It should also include a mode of transit. The number of alternate routes cannot exceed 5.
-      If you can't infer the mode of transit, make a best guess given the trip location.
+      Try to include the specific address of each location.
 
-      For example:
-        Interpret:
-        ####
-        Travel route to Marina Bay Sands from Sengkang MRT using public transport
-        #####
-        as 
-        "
-        what will google map output if I want to travel from Sengkang MRT to Marina Bay Sands
-        travel_mode: public transport
-        start time: {t1}
-        "
-        Please show the start time in the output with start time: {t1}
-        Your output should be organized as follows:
-       start_location: Sengkang MRT (1 Sengkang Square, Singapore 758068)
-       end_location: Marina Bay Sands (10 Bayfront Avenue, Singapore 018956)
-       travel_mode: Public Transport
-       routes: 
-           total distance: 13.1 km
-           duration: 18 mins
-           type: driving,
-            start_location: Sengkang MRT (1 Sengkang Square, Singapore 758068)
-            end_location: Sengkang Central (10 Sengkang Central, Singapore 758068)
-            distance: 1.1 km
-            duration: 2 mins
-            type: driving,
-            start_location: Sengkang Central (10 Sengkang Central, Singapore 758068)
-            end_location: Punggol MRT (2 Punggol Walk, Singapore 828826)
-            distance: 2.5 km
-            duration: 4 mins
-            type: driving
-            start_location: Punggol MRT (2 Punggol Walk, Singapore 828826)
-            end_location: Marina Bay Sands (10 Bayfront Avenue, Singapore 018956)
-            distance: 8.5 km
-            duration: 12 mins
-            start time: {t1}
+      Remember to take the user's preferences and timeframe into account,
+      and give them a route that would be fun and realistic given their constraints.
+      
+
+      Return the route as a bulleted list with clear start and end locations and mention the type of transit for each segment.
+      
+      If specific start and end locations are not given, choose ones that you think are suitable and give specific addresses.
+      
 
     """
 
