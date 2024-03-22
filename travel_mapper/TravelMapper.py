@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 from pathlib import Path
 from travel_mapper.user_interface.constants import VALID_MESSAGE
 import os
+from datetime import datetime, timedelta
+
 
 
 def load_secrets():
@@ -137,4 +139,59 @@ class TravelMapperForUI(TravelMapperBase):
 
             map_html = generate_leafmap(directions_list, sampled_route)
 
-        return map_html, itinerary, validation_string
+            new_itinerary = format_directions(directions_list)
+
+            print("This is the direction list", directions_list)
+
+        return map_html, new_itinerary, validation_string
+
+from datetime import datetime, timedelta
+
+def format_directions(directions_list):
+    """
+    Formats a list of directions obtained from the Google Maps API into a readable travel itinerary, 
+    similar to a visually structured format.
+
+    Parameters
+    ----------
+    directions_list : list
+        A list of direction information, each entry containing details about a step in the route.
+
+    Returns
+    -------
+    itinerary : str
+        A formatted string representing the travel itinerary, structured similarly to the provided visual example.
+    """
+    itinerary = ""
+    for leg in directions_list[0]['legs']:  # Assuming there's only one route
+        # Adding departure time and start address
+        itinerary += f"Start Time: {leg['departure_time']['text']}\nStart: {leg['start_address']}\n\n"
+
+        for step in leg['steps']:
+            # Extract and format details for each step
+            travel_mode = step.get('travel_mode', 'Travel').title()
+            instructions = step['html_instructions'].replace('<div style="font-size:0.9em">', ' ').replace('</div>', '').replace('<b>', '').replace('</b>', '').replace('<div>', ' ').replace('<wbr/>', '').replace('&nbsp;', ' ')
+            duration = step['duration']['text']
+
+            if travel_mode.lower() == 'walking':
+                itinerary += f"Walk\n· About {duration}\n"
+            elif travel_mode.lower() == 'transit':
+                line = step['transit_details']['line']['name']
+                arrival_stop = step['transit_details']['arrival_stop']['name']
+                departure_stop = step['transit_details']['departure_stop']['name']
+                num_stops = step['transit_details']['num_stops']
+                itinerary += f"{travel_mode}\n{line}\n· {duration} ({num_stops} stops)\n· From: {departure_stop}\n· To: {arrival_stop}\n"
+            else:
+                itinerary += f"{travel_mode}\n· {duration}\n"
+
+            # Instructions and details
+            itinerary += f"· Instructions: {instructions}\n\n"
+
+        # Add end address and arrival time
+        itinerary += f"End Time: {leg['arrival_time']['text']}\nEnd: {leg['end_address']}\n\n"
+
+    return itinerary
+
+
+
+

@@ -236,7 +236,7 @@ class RouteFinder:
             start_time = datetime.now()
 
         if not transit_type:
-            transit_type = "driving"
+            transit_type = "transit"
 
         # use of place_id makes the calls more efficient
         # see https://developers.google.com/maps/documentation/directions/get-directions#Waypoints
